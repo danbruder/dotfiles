@@ -1,3 +1,6 @@
+"
+"
+"
 "  _____              _      __      ___              _____             __ _       
 " |  __ \            ( )     \ \    / (_)            / ____|           / _(_)      
 " | |  | | __ _ _ __ |/ ___   \ \  / / _ _ __ ___   | |     ___  _ __ | |_ _  __ _ 
@@ -7,7 +10,8 @@
 "                                                                             __/ |
 "                                                                            |___/ 
 " 
-
+"
+"
 "+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "| 
 "| Plugins
@@ -23,6 +27,13 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+
+"+--------------------------------------------------------------------------------
+"| Language client
+"+--------------------------------------------------------------------------------
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+
+
 "+--------------------------------------------------------------------------------
 "| Nertree
 "+--------------------------------------------------------------------------------
@@ -30,6 +41,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'rking/ag.vim'
 Plug 'taiansu/nerdtree-ag'
+
 
 "+--------------------------------------------------------------------------------
 "| Ctrlp
@@ -40,6 +52,7 @@ Plug 'mattn/ctrlp-mark'
 Plug 'sgur/ctrlp-extensions.vim'
 Plug 'mattn/ctrlp-register'
 
+
 "+--------------------------------------------------------------------------------
 "| Editing
 "+--------------------------------------------------------------------------------
@@ -48,6 +61,8 @@ Plug 'kana/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'Valloric/YouCompleteMe'
+Plug 'junegunn/vim-easy-align'
+
 
 "+--------------------------------------------------------------------------------
 "| Ide
@@ -55,6 +70,7 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ddollar/nerdcommenter'
+
 
 "+--------------------------------------------------------------------------------
 "| Syntax
@@ -78,14 +94,17 @@ Plug 'bumaociyuan/vim-swift'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'lepture/vim-jinja'
 Plug 'cespare/vim-toml'
+Plug 'jxnblk/vim-mdx-js'
+
 
 "+--------------------------------------------------------------------------------
 "| Colorscheme
 "+--------------------------------------------------------------------------------
-"Plug 'nanotech/jellybeans.vim'
-"Plug 'blindFS/flattr.vim'
+Plug 'nanotech/jellybeans.vim'
+Plug 'blindFS/flattr.vim'
 Plug 'itchyny/lightline.vim'
 call plug#end()
+
 
 "+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "| 
@@ -121,13 +140,8 @@ set nopaste
 set nobackup
 set noswapfile
 filetype plugin indent on
-
-" Changes to init.vim refresh immediately
-autocmd! bufwritepost .vimrc source %
-
-" Disable automatic comments
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
+autocmd! bufwritepost .vimrc source % " Changes to init.vim refresh immediately
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disable automatic comments
 let mapleader = "\<Space>"
 set autoread
 set showcmd
@@ -149,7 +163,7 @@ set incsearch
 set hlsearch
 hi Search ctermbg=Gray
 map q: :q
-"colo flattr
+colo flattr
 set mouse=
 imap ^? ^H
 nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
@@ -160,6 +174,7 @@ set nonumber
 autocmd BufEnter * silent! `"
 cmap w!! w !sudo tee % >/dev/null
 
+
 "+--------------------------------------------------------------------------------
 "| Moving between windows and tabs
 "+--------------------------------------------------------------------------------
@@ -169,6 +184,34 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <C-L> <C-W><C-L>
 nmap <silent> <C-Tab> :tabn<cr>
 nmap <silent> <C-S-Tab> :tabp<cr>
+
+
+"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"| 
+"| Plugin Config
+"| 
+"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+"+--------------------------------------------------------------------------------
+"| Nerd commenter
+"+--------------------------------------------------------------------------------
+let g:NERDCompactSexyComs = 1
+
+"+--------------------------------------------------------------------------------
+"| Language Client
+"+--------------------------------------------------------------------------------
+autocmd BufReadPost *.rs setlocal filetype=rust
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'go': ['go-langserver'] }
+let g:LanguageClient_autoStart = 1
+nnoremap <silent> K :call LanguageClient_textDocument_hover()
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()
+let g:autofmt_autosave = 1
+
 
 "+--------------------------------------------------------------------------------
 "| Airline
@@ -189,20 +232,21 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_match_window = 'top,order:btt,min:1,max:30,results:30'
 let g:ctrlp_open_multiple_files = 'i'
 let g:ctrlp_working_path_mode = 0 
-" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" ag is fast enough that CtrlP doesn't need to cache
-let g:ctrlp_use_caching = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+let g:ctrlp_use_caching = 0 " ag is fast enough that CtrlP doesn't need to cache
+
 
 "+--------------------------------------------------------------------------------
 "| NerdTree
 "+--------------------------------------------------------------------------------
 let g:NERDTreeWinSize = 50
 
+
 "+--------------------------------------------------------------------------------
 "| Gutentags
 "+--------------------------------------------------------------------------------
 "set tags=./.tags,./.tags,.tags;$HOME
+
 
 "+--------------------------------------------------------------------------------
 "| Drupal
@@ -222,6 +266,7 @@ endif
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 let g:syntastic_php_checkers = ["php"]
 
+
 "+--------------------------------------------------------------------------------
 "| Funky
 "+--------------------------------------------------------------------------------
@@ -230,21 +275,25 @@ nnoremap <Leader>f :CtrlPFunky<Cr>
 nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 
+
 "+--------------------------------------------------------------------------------
 "| Prettier
 "+--------------------------------------------------------------------------------
 "let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.json,*.graphql,*.md,*.vue Prettier
 
+
 "+--------------------------------------------------------------------------------
 "| Elm
 "+--------------------------------------------------------------------------------
 let g:elm_format_autosave = 1
 
+
 "+--------------------------------------------------------------------------------
 "| Elixir
 "+--------------------------------------------------------------------------------
 let g:mix_format_on_save = 1
+
 
 "+--------------------------------------------------------------------------------
 "| typescript
@@ -253,14 +302,25 @@ let g:syntastic_typescript_checkers = ['tsuquyomi']
 let g:tsuquyomi_completion_detail = 1
 let g:autofmt_autosave = 1
 
+
 "+--------------------------------------------------------------------------------
 "| Tera
 "+--------------------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.tera set ft=jinja
+
 
 "+--------------------------------------------------------------------------------
 "| Syntastic
 "+--------------------------------------------------------------------------------
 let g:jsx_ext_required = 0
 let g:syntastic_ignore_files = ['.*\.scss$']
+
+
+"+--------------------------------------------------------------------------------
+"| Easy Align
+"+--------------------------------------------------------------------------------
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign) 
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
