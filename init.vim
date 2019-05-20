@@ -76,6 +76,7 @@ Plug 'ddollar/nerdcommenter'
 "| Syntax
 "+--------------------------------------------------------------------------------
 "Plug 'scrooloose/syntastic'
+Plug 'leafgarland/typescript-vim'
 Plug 'isruslan/vim-es6'
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
@@ -83,7 +84,7 @@ Plug 'mxw/vim-jsx'
 Plug 'fatih/vim-go'
 Plug 'nsf/gocode'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'elixir-lang/vim-elixir'
+Plug 'elixir-editors/vim-elixir'
 Plug 'mhinz/vim-mix-format'
 Plug 'slashmili/alchemist.vim'
 Plug 'ElmCast/elm-vim'
@@ -95,6 +96,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'lepture/vim-jinja'
 Plug 'cespare/vim-toml'
 Plug 'jxnblk/vim-mdx-js'
+Plug 'neovimhaskell/haskell-vim'
 
 
 "+--------------------------------------------------------------------------------
@@ -103,6 +105,8 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'nanotech/jellybeans.vim'
 Plug 'blindFS/flattr.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'rakr/vim-one'
+
 call plug#end()
 
 
@@ -164,6 +168,9 @@ set hlsearch
 hi Search ctermbg=Gray
 map q: :q
 colo flattr
+set background=dark
+let g:one_allow_italics = 1
+colo one
 set mouse=
 imap ^? ^H
 nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
@@ -216,7 +223,7 @@ let g:autofmt_autosave = 1
 "+--------------------------------------------------------------------------------
 "| Airline
 "+--------------------------------------------------------------------------------
-let g:airline_theme="light"
+let g:airline_theme="one"
 
 
 "+--------------------------------------------------------------------------------
@@ -245,7 +252,7 @@ let g:NERDTreeWinSize = 50
 "+--------------------------------------------------------------------------------
 "| Gutentags
 "+--------------------------------------------------------------------------------
-"set tags=./.tags,./.tags,.tags;$HOME
+set tags=./.tags,./.tags,.tags;$HOME
 
 
 "+--------------------------------------------------------------------------------
