@@ -1,4 +1,4 @@
-"
+
 "
 "
 "  _____              _      __      ___              _____             __ _       
@@ -27,6 +27,9 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+if (has("termguicolors"))
+ set termguicolors
+endif
 
 "+--------------------------------------------------------------------------------
 "| Language client
@@ -60,8 +63,24 @@ Plug 'kana/vim-repeat'
 Plug 'kana/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
-Plug 'Valloric/YouCompleteMe'
 Plug 'junegunn/vim-easy-align'
+
+" ncm2
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+" ncm2 Base
+Plug 'ncm2/ncm2-syntax'
+Plug 'Shougo/neco-syntax'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-bufword'
+" ncm2 Langs
+Plug 'ncm2/ncm2-racer'
+Plug 'megalithic/ncm2-elm', { 'for': ['elm'], 'do': 'npm i -g elm-oracle' }
+Plug 'ncm2/ncm2-tern'
+Plug 'mhartington/nvim-typescript'
+Plug 'ncm2/ncm2-go'
+Plug 'pbogut/ncm2-alchemist'
+Plug 'ncm2/ncm2-cssomni'
 
 
 "+--------------------------------------------------------------------------------
@@ -75,7 +94,8 @@ Plug 'ddollar/nerdcommenter'
 "+--------------------------------------------------------------------------------
 "| Syntax
 "+--------------------------------------------------------------------------------
-"Plug 'scrooloose/syntastic'
+Plug 'airblade/vim-rooter'
+Plug 'w0rp/ale'
 Plug 'leafgarland/typescript-vim'
 Plug 'isruslan/vim-es6'
 Plug 'jparise/vim-graphql'
@@ -104,8 +124,11 @@ Plug 'neovimhaskell/haskell-vim'
 "+--------------------------------------------------------------------------------
 Plug 'nanotech/jellybeans.vim'
 Plug 'blindFS/flattr.vim'
-Plug 'itchyny/lightline.vim'
 Plug 'rakr/vim-one'
+Plug 'cormacrelf/vim-colors-github'
+Plug 'reedes/vim-colors-pencil'
+Plug 'arcticicestudio/nord-vim'
+Plug 'haishanh/night-owl.vim'
 
 call plug#end()
 
@@ -167,10 +190,6 @@ set incsearch
 set hlsearch
 hi Search ctermbg=Gray
 map q: :q
-colo flattr
-set background=dark
-let g:one_allow_italics = 1
-colo one
 set mouse=
 imap ^? ^H
 nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
@@ -180,6 +199,16 @@ set nonumber
 " Go to last position in the buffer
 autocmd BufEnter * silent! `"
 cmap w!! w !sudo tee % >/dev/null
+
+"+--------------------------------------------------------------------------------
+"| Colorcheme
+"+--------------------------------------------------------------------------------
+set background=light
+colo night-owl
+let g:one_allow_italics = 1
+let g:pencil_terminal_italics = 1
+let g:airline_theme="night_owl"
+let g:nord_italic = 1
 
 
 "+--------------------------------------------------------------------------------
@@ -209,7 +238,6 @@ let g:NERDCompactSexyComs = 1
 "+--------------------------------------------------------------------------------
 autocmd BufReadPost *.rs setlocal filetype=rust
 let g:LanguageClient_serverCommands = {
-    \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'go': ['go-langserver'] }
@@ -218,12 +246,7 @@ nnoremap <silent> K :call LanguageClient_textDocument_hover()
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()
 let g:autofmt_autosave = 1
-
-
-"+--------------------------------------------------------------------------------
-"| Airline
-"+--------------------------------------------------------------------------------
-let g:airline_theme="one"
+let g:rustfmt_autosave = 1
 
 
 "+--------------------------------------------------------------------------------
@@ -284,10 +307,20 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 
 "+--------------------------------------------------------------------------------
+"| Ale
+"+--------------------------------------------------------------------------------
+let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5 --semi=true'
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'css': ['prettier'],
+\}
+let g:ale_fix_on_save = 1
+
+"+--------------------------------------------------------------------------------
 "| Prettier
 "+--------------------------------------------------------------------------------
-"let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.json,*.graphql,*.md,*.vue Prettier
+"let g:prettier#autoformat = 1
+autocmd BufWritePre *.ts,*.tsx,*.css,*.less,*.json,*.graphql,*.md,*.vue Prettier
 
 
 "+--------------------------------------------------------------------------------
@@ -300,6 +333,8 @@ let g:elm_format_autosave = 1
 "| Elixir
 "+--------------------------------------------------------------------------------
 let g:mix_format_on_save = 1
+let g:mix_format_options = '--check-equivalent'
+let g:mix_format_silent_errors = 1
 
 
 "+--------------------------------------------------------------------------------
@@ -331,3 +366,16 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+
+"+--------------------------------------------------------------------------------
+"| Ncm
+"+--------------------------------------------------------------------------------
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" This will show the popup menu even if there's only one match (menuone),
+" prevent automatic selection (noselect) and prevent automatic text injection
+" into the current line (noinsert).
+set completeopt=noinsert,menuone,noselect
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
