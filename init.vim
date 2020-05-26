@@ -75,7 +75,7 @@ Plug 'Shougo/neco-syntax'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-bufword'
 " ncm2 Langs
-Plug 'ncm2/ncm2-racer'
+" Plug 'ncm2/ncm2-racer'
 Plug 'megalithic/ncm2-elm', { 'for': ['elm'], 'do': 'npm i -g elm-oracle' }
 Plug 'ncm2/ncm2-tern'
 Plug 'mhartington/nvim-typescript'
@@ -95,9 +95,8 @@ Plug 'ddollar/nerdcommenter'
 "+--------------------------------------------------------------------------------
 "| Syntax
 "+--------------------------------------------------------------------------------
-Plug 'airblade/vim-rooter'
+"Plug 'airblade/vim-rooter'
 Plug 'w0rp/ale'
-Plug 'leafgarland/typescript-vim'
 Plug 'isruslan/vim-es6'
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
@@ -223,6 +222,11 @@ nmap <silent> <C-Tab> :tabn<cr>
 nmap <silent> <C-S-Tab> :tabp<cr>
 
 
+"+--------------------------------------------------------------------------------
+"| Save the muscles in my arm
+"+--------------------------------------------------------------------------------
+imap jj <Esc>:w<CR>
+
 "+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "| 
 "| Plugin Config
@@ -239,9 +243,13 @@ let g:NERDCompactSexyComs = 1
 "+--------------------------------------------------------------------------------
 autocmd BufReadPost *.rs setlocal filetype=rust
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'go': ['go-langserver'] }
+  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+  \ 'go': ['go-langserver'],
+  \ 'elm': ['elm-language-server']
+}
+let g:LanguageClient_rootMarkers = {
+      \ 'elm': ['elm.json'],
+      \ }
 let g:LanguageClient_autoStart = 1
 nnoremap <silent> K :call LanguageClient_textDocument_hover()
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()
@@ -321,8 +329,7 @@ let g:ale_fix_on_save = 1
 "| Prettier
 "+--------------------------------------------------------------------------------
 "let g:prettier#autoformat = 1
-autocmd BufWritePre *.ts,*.tsx,*.css,*.less,*.json,*.graphql,*.md,*.vue Prettier
-
+autocmd BufWritePre *.*.css,*.less,*.json,*.graphql,*.md,*.vue Prettier
 
 "+--------------------------------------------------------------------------------
 "| Elm
@@ -341,9 +348,9 @@ let g:mix_format_silent_errors = 1
 "+--------------------------------------------------------------------------------
 "| typescript
 "+--------------------------------------------------------------------------------
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-let g:tsuquyomi_completion_detail = 1
-let g:autofmt_autosave = 1
+" let g:syntastic_typescript_checkers = ['tsuquyomi']
+" let g:tsuquyomi_completion_detail = 1
+" let g:autofmt_autosave = 1
 
 
 "+--------------------------------------------------------------------------------
@@ -357,6 +364,11 @@ autocmd BufNewFile,BufRead *.tera set ft=jinja
 "+--------------------------------------------------------------------------------
 let g:jsx_ext_required = 0
 let g:syntastic_ignore_files = ['.*\.scss$']
+
+"+--------------------------------------------------------------------------------
+"| Rust
+"+--------------------------------------------------------------------------------
+let g:rust_cargo_check_tests = 1
 
 
 "+--------------------------------------------------------------------------------
@@ -380,3 +392,4 @@ set completeopt=noinsert,menuone,noselect
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
