@@ -66,18 +66,6 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/vim-easy-align'
 
-" ncm2
-" Plug 'ncm2/ncm2'
-" Plug 'roxma/nvim-yarp'
-" " ncm2 Base
-" Plug 'ncm2/ncm2-syntax'
-" Plug 'Shougo/neco-syntax'
-" Plug 'ncm2/ncm2-path'
-" Plug 'ncm2/ncm2-bufword'
-" " ncm2 Langs
-" " Plug 'ncm2/ncm2-racer'
-" Plug 'megalithic/ncm2-elm', { 'for': ['elm'], 'do': 'npm i -g elm-oracle' }
-" Plug 'ncm2/ncm2-tern'
 Plug 'mhartington/nvim-typescript'
 Plug 'noahfrederick/vim-laravel'
 
@@ -87,12 +75,11 @@ Plug 'tpope/vim-projectionist'        "|
 Plug 'noahfrederick/vim-composer'     "|
 Plug 'noahfrederick/vim-laravel'
 
-" Plug 'ncm2/ncm2-go'
-" Plug 'pbogut/ncm2-alchemist'
-" Plug 'ncm2/ncm2-cssomni'
-
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Writing
+Plug 'junegunn/goyo.vim'
 
 
 
@@ -107,9 +94,8 @@ Plug 'ddollar/nerdcommenter'
 "+--------------------------------------------------------------------------------
 "| Syntax
 "+--------------------------------------------------------------------------------
-"Plug 'airblade/vim-rooter'
 Plug 'jwalton512/vim-blade'
-Plug 'w0rp/ale'
+"Plug 'w0rp/ale'
 Plug 'isruslan/vim-es6'
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
@@ -132,6 +118,9 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'hashivim/vim-terraform'
 Plug 'jvirtanen/vim-hcl'
+Plug 'fatih/vim-hclfmt'
+Plug 'beanworks/vim-phpfmt'
+Plug 'dart-lang/dart-vim-plugin'
 
 
 "+--------------------------------------------------------------------------------
@@ -196,9 +185,9 @@ set autoindent
 set expandtab
 set smarttab
 set smartindent
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 set backspace=2
 set ignorecase
 nnoremap <Leader>w :w<CR>
@@ -260,12 +249,12 @@ let g:NERDCompactSexyComs = 1
 "+--------------------------------------------------------------------------------
 autocmd BufReadPost *.rs setlocal filetype=rust
 let g:LanguageClient_serverCommands = {
-  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ 'go': ['go-langserver'],
   \}
 
   "\ 'elm': ['elm-language-server']
   "\ 'rust': ['~/.cargo/bin/ra_lsp_server'],
+  "\ 'rust': ['rustup', 'run', 'stable', 'rls'],
 " let g:LanguageClient_rootMarkers = {
 "       \ 'elm': ['elm.json'],
 "       \ }
@@ -280,7 +269,7 @@ let g:rustfmt_autosave = 1
 "+--------------------------------------------------------------------------------
 "| CtrlP
 "+--------------------------------------------------------------------------------
-let g:ctrlp_mruf_max = 1000
+let g:ctrlp_mruf_max = 100
 nnoremap <leader>m :CtrlPMRU <cr>
 nnoremap <leader>p :CtrlPRoot <cr>
 nnoremap <leader>n :NERDTreeToggle<cr>
@@ -307,7 +296,7 @@ set tags=./.tags,./.tags,.tags;$HOME
 
 
 "+--------------------------------------------------------------------------------
-"| Drupal
+"| PHP
 "+--------------------------------------------------------------------------------
 if has("autocmd")
   " Drupal *.module and *.install files.
@@ -324,45 +313,42 @@ endif
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 let g:syntastic_php_checkers = ["php"]
 
-
-"+--------------------------------------------------------------------------------
-"| Funky
-"+--------------------------------------------------------------------------------
-" nnoremap <Leader>f :CtrlPFunky<Cr>
-" " narrow the list down with a word under cursor
-" nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-" let g:ctrlp_funky_syntax_highlight = 1
+" A standard type: PEAR, PHPCS, PSR1, PSR2, Squiz and Zend
+let g:phpfmt_standard = 'PSR2'
+let g:phpfmt_autosave = 1
 
 
 "+--------------------------------------------------------------------------------
 "| Ale
 "+--------------------------------------------------------------------------------
-let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5 --semi=true'
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'css': ['prettier'],
-\}
+"let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5 --semi=true'
+" let g:ale_fixers = {
+" " \   'javascript': ['eslint'],
+" " \   'css': ['prettier'],
+" " \}
 let g:ale_fix_on_save = 1
+let g:ale_set_highlights = 0
+" highlight ALEWarning ctermbg=DarkMagenta
+" let g:ale_disable_lsp = 1
 
 "+--------------------------------------------------------------------------------
 "| Prettier
 "+--------------------------------------------------------------------------------
 "let g:prettier#autoformat = 1
-"autocmd BufWritePre *.*.css,*.less,*.json,*.graphql,*.md,*.vue Prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-"+--------------------------------------------------------------------------------
-"| Elm
-"+--------------------------------------------------------------------------------
-"let g:elm_format_autosave = 1
-
 
 "+--------------------------------------------------------------------------------
 "| Elixir
 "+--------------------------------------------------------------------------------
 let g:mix_format_on_save = 1
-let g:mix_format_options = '--check-equivalent'
 let g:mix_format_silent_errors = 1
+autocmd BufReadPost *.exs setlocal filetype=elixir
+autocmd BufReadPost *.lexs setlocal filetype=elixir
+
+"+--------------------------------------------------------------------------------
+"| Elm
+"+--------------------------------------------------------------------------------
+let g:elm_syntastic_show_warnings = 1
 
 
 "+--------------------------------------------------------------------------------
@@ -374,6 +360,16 @@ let g:autofmt_autosave = 1
 
 
 "+--------------------------------------------------------------------------------
+"| Laravel
+"+--------------------------------------------------------------------------------
+au BufEnter,BufNew *.blade.php :set syn=php
+
+"+--------------------------------------------------------------------------------
+"| Handlebars
+"+--------------------------------------------------------------------------------
+let g:mustache_abbreviations = 1
+
+"+--------------------------------------------------------------------------------
 "| Tera
 "+--------------------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.tera set ft=jinja
@@ -383,7 +379,7 @@ autocmd BufNewFile,BufRead *.tera set ft=jinja
 "| Syntastic
 "+--------------------------------------------------------------------------------
 let g:jsx_ext_required = 0
-let g:syntastic_ignore_files = ['.*\.scss$']
+let g:syntastic_ignore_files = ['.*\.scss$', '.*.cr$']
 
 "+--------------------------------------------------------------------------------
 "| Terraform 
@@ -403,22 +399,6 @@ let g:rust_cargo_check_tests = 1
 xmap ga <Plug>(EasyAlign) 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-
-"+--------------------------------------------------------------------------------
-"| Ncm
-"+--------------------------------------------------------------------------------
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" " This will show the popup menu even if there's only one match (menuone),
-" " prevent automatic selection (noselect) and prevent automatic text injection
-" " into the current line (noinsert).
-" set completeopt=noinsert,menuone,noselect
-
-" " Use <TAB> to select the popup menu:
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-
 
 "+--------------------------------------------------------------------------------
 "| coc
@@ -559,19 +539,15 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+" Ocaml
+if executable('opam')
+  let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
+  if isdirectory(g:opamshare."/merlin/vim")
+    execute "set rtp+=" . g:opamshare."/merlin/vim"
+  endif
+endif
 
-
-"+--------------------------------------------------------------------------------
-"| Laravel
-"+--------------------------------------------------------------------------------
-au BufEnter,BufNew *.blade.php :set filetype=html
-au BufEnter,BufNew *.blade.php :set syn=php
-
-
-"nnoremap <silent> <space>u  <Plug>(composer-use)
-
-"+--------------------------------------------------------------------------------
-"| Elixir
-"+--------------------------------------------------------------------------------
-autocmd BufReadPost *.exs setlocal filetype=elixir
-
+" Flutter
+let g:dart_format_on_save = 1
+let dart_html_in_string=v:true
+let g:dart_style_guide = 2
