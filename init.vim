@@ -539,6 +539,9 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+autocmd FileType markdown let b:coc_suggest_disable = 1
+
+
 
 " Ocaml
 if executable('opam')
@@ -563,3 +566,5 @@ augroup pencil
                             \ | call litecorrect#init()
 augroup END
 
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
