@@ -37,7 +37,6 @@ endif
 "+--------------------------------------------------------------------------------
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 
-
 "+--------------------------------------------------------------------------------
 "| Nertree
 "+--------------------------------------------------------------------------------
@@ -51,11 +50,9 @@ Plug 'taiansu/nerdtree-ag'
 "| Ctrlp
 "+--------------------------------------------------------------------------------
 Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'tacahiroy/ctrlp-funky'
 Plug 'mattn/ctrlp-mark'
 Plug 'sgur/ctrlp-extensions.vim'
 Plug 'mattn/ctrlp-register'
-
 
 "+--------------------------------------------------------------------------------
 "| Editing
@@ -80,8 +77,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Writing
 Plug 'junegunn/goyo.vim'
-
-
+Plug 'preservim/vim-pencil' 
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'preservim/vim-lexical'
+Plug 'preservim/vim-litecorrect'
+Plug 'preservim/vim-textobj-sentence'
 
 "+--------------------------------------------------------------------------------
 "| Ide
@@ -95,12 +96,11 @@ Plug 'ddollar/nerdcommenter'
 "| Syntax
 "+--------------------------------------------------------------------------------
 Plug 'jwalton512/vim-blade'
-"Plug 'w0rp/ale'
 Plug 'isruslan/vim-es6'
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'nsf/gocode'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'elixir-editors/vim-elixir'
@@ -340,10 +340,11 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 "+--------------------------------------------------------------------------------
 "| Elixir
 "+--------------------------------------------------------------------------------
-let g:mix_format_on_save = 1
-let g:mix_format_silent_errors = 1
-autocmd BufReadPost *.exs setlocal filetype=elixir
-autocmd BufReadPost *.lexs setlocal filetype=elixir
+" let g:mix_format_on_save = 1
+" let g:mix_format_silent_errors = 1
+" autocmd bufreadpost *.exs setlocal filetype=elixir
+" autocmd bufreadpost *.lexs setlocal filetype=elixir
+" autocmd BufReadPost *.exs setlocal formatprg=mix\ format\ -
 
 "+--------------------------------------------------------------------------------
 "| Elm
@@ -551,3 +552,14 @@ endif
 let g:dart_format_on_save = 1
 let dart_html_in_string=v:true
 let g:dart_style_guide = 2
+
+"+--------------------------------------------------------------------------------
+"| Writing
+"+--------------------------------------------------------------------------------
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'soft', 'autoformat': 1})
+                            \ | call lexical#init()
+                            \ | call litecorrect#init()
+augroup END
+
