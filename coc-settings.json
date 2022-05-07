@@ -1,0 +1,41 @@
+{
+    "diagnostic.displayByAle": false,
+    "diagnostic.refreshAfterSave": true,
+    "languageserver": {
+        "elmLS": {
+            "command": "elm-language-server",
+            "filetypes": ["elm"],
+            "rootPatterns": ["elm.json"],
+            "initializationOptions": {
+                "elmAnalyseTrigger": "foo"
+            }
+        }
+
+    },
+    "codeLens.enable": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "js",
+        "elm",
+        "jsx",
+        "ts",
+        "tsx",
+        "css",
+        "json",
+        "markdown",
+        "dart",
+        "elixir"
+    ],
+    "rust-analyzer": {
+        "inlayHints": {
+            "chainingHints": false,
+            "typeHints": false
+        },
+        "lens": {
+            "enable": false
+        },
+        "checkOnSave": { 
+            "enable": true
+        }
+    },
+    "elixirLS.dialyzerEnabled": false
+}
