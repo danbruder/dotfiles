@@ -1,41 +1,53 @@
 {
-    "diagnostic.displayByAle": false,
-    "diagnostic.refreshAfterSave": true,
-    "languageserver": {
-        "elmLS": {
-            "command": "elm-language-server",
-            "filetypes": ["elm"],
-            "rootPatterns": ["elm.json"],
-            "initializationOptions": {
-                "elmAnalyseTrigger": "foo"
-            }
-        }
-
+  "suggest.noselect": true,
+  "diagnostic.displayByAle": false,
+  "diagnostic.refreshAfterSave": true,
+  "languageserver": {
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "trace.server": "verbose",
+      "filetypes": ["go"]
     },
-    "codeLens.enable": true,
-    "coc.preferences.formatOnSaveFiletypes": [
-        "js",
-        "elm",
-        "jsx",
-        "ts",
-        "tsx",
-        "css",
-        "json",
-        "markdown",
-        "dart",
-        "elixir"
-    ],
-    "rust-analyzer": {
-        "inlayHints": {
-            "chainingHints": false,
-            "typeHints": false
-        },
-        "lens": {
-            "enable": false
-        },
-        "checkOnSave": { 
-            "enable": true
-        }
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "initializationOptions": {
+        "elmAnalyseTrigger": "foo"
+      }
     },
-    "elixirLS.dialyzerEnabled": false
+    "elixirLS": {
+      "command": "/usr/local/bin/elixir-ls",
+      "filetypes": ["elixir", "eelixir"]
+    }
+  },
+  "codeLens.enable": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "js",
+    "go",
+    "elm",
+    "jsx",
+    "ts",
+    "tsx",
+    "css",
+    "json",
+    "markdown",
+    "dart",
+    "elixir",
+    "eelixir"
+  ],
+  "rust-analyzer": {
+    "inlayHints": {
+      "chainingHints": false,
+      "typeHints": false
+    },
+    "lens": {
+      "enable": false
+    },
+    "checkOnSave": {
+      "enable": true
+    }
+  },
+  "elixirLS.dialyzerEnabled": false
 }
