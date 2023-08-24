@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
-plugins=(emoji-clock emoji tmux docker-compose emotty git gitignore history rsync node npm docker)
+plugins=(emoji-clock emoji docker-compose emotty git gitignore history rsync node npm docker)
 
 # User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -113,18 +113,10 @@ export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 
 export PATH=$PATH:$HOME/.linkerd2/bin
 export PATH=$PATH:$HOME/.composer/vendor/bin
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/var/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/var/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/var/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/var/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/usr/local/opt/llvm@8/bin:$PATH"
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-source /usr/local/var/istio-1.4.4/tools/_istioctl
 
 alias cc="cargo check"
 alias cr="cargo run"
@@ -149,8 +141,7 @@ export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 export PATH="$PATH:/usr/local/var/flutter/bin"
 
 export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
-#export PATH="/usr/local/opt/node@14/bin:$PATH"
-export PATH="/usr/local/opt/libpq/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 export CC_armv7_unknown_linux_musleabi=/usr/local/bin/arm-linux-musleabi-gcc-8
 
@@ -181,15 +172,11 @@ HOME=${HOME:-'/Users/dan'}
 export PATH="$HOME/"'.platformsh/bin':"$PATH"
 if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
 
-source /Users/dan/.docker/init-zsh.sh || true # Added by Docker Desktop
-
-export PATH=$PATH:/usr/local/opt/roc/roc_nightly-macos_x86_64-2023-01-23-25f1d8d
-
 export PATH="${HOME}/.dronedeploy/kutil:${PATH}"
 
 
 # Load Angular CLI autocompletion.
-source <(ng completion script)
+#source <(ng completion script)
 
 export GO_PATH=~/go
 export PATH=$PATH:/$GO_PATH/bin
@@ -201,3 +188,12 @@ alias do-backup="restic --verbose backup ~/Documents"
 # opam configuration
 [[ ! -r /Users/dan/.opam/opam-init/init.zsh ]] || source /Users/dan/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/dan/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dan/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/dan/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dan/google-cloud-sdk/completion.zsh.inc'; fi
