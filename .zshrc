@@ -197,3 +197,13 @@ if [ -f '/Users/dan/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dan/google-
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/dan/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dan/google-cloud-sdk/completion.zsh.inc'; fi
+
+#export NODE_OPTIONS='--openssl-legacy-provider'
+
+# bun completions
+[ -s "/Users/dan/.bun/_bun" ] && source "/Users/dan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
